@@ -1,31 +1,38 @@
-#include"utils.h"
+#include"../include/utils.h"
 
 int iniciar_servidor(void)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
+    // Quitar esta línea cuando hayamos terminado de implementar la funcion
+    // assert(!"no implementado!");
 
-	int socket_servidor;
+    int socket_servidor;
 
-	struct addrinfo hints, *servinfo, *p;
+    struct addrinfo hints, *servinfo;
 
-	memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_flags = AI_PASSIVE;
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(IP, PUERTO, &hints, &servinfo);
+    getaddrinfo(IP, PUERTO, &hints, &servinfo);
 
-	// Creamos el socket de escucha del servidor
+    // Creamos el socket de escucha del servidor
+    if ((socket_servidor = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol)) == -1)
+        log_error(logger, "No se creo el socket de escucha del servidor");
 
-	// Asociamos el socket a un puerto
+    // Asociamos el socket a un puerto
+    if (bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen) == -1)
+    {
+        close(socket_servidor);
+        log_error(logger, "Se cerró el socket porque no se asoció al puerto.");
+    }
+    // Escuchamos las conexiones entrantes
+    listen(socket_servidor, SOMAXCONN);
 
-	// Escuchamos las conexiones entrantes
+    freeaddrinfo(servinfo);
+    log_info(logger, "Listo para escuchar a mi cliente");
 
-	freeaddrinfo(servinfo);
-	log_trace(logger, "Listo para escuchar a mi cliente");
-
-	return socket_servidor;
+    return socket_servidor;
 }
 
 int esperar_cliente(int socket_servidor)
