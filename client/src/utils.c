@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../include/utils.h""
 
 extern t_log *logger;
 
@@ -80,11 +80,11 @@ void crear_buffer(t_paquete* paquete)
 t_paquete* crear_super_paquete(void)
 {
 	//me falta un malloc!
-	t_paquete* paquete;
+	t_paquete* paquete = malloc(sizeof(t_paquete));
 
 	//descomentar despues de arreglar
-	//paquete->codigo_operacion = PAQUETE;
-	//crear_buffer(paquete);
+	paquete->codigo_operacion = PAQUETE;
+	crear_buffer(paquete);
 	return paquete;
 }
 

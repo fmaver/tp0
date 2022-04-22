@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "utils.h": "c"
+        "utils.h": "c",
+        "readline.h": "c",
+        "stdlib.h": "c"
     }
 }

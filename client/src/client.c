@@ -64,8 +64,7 @@ int main(void)
 t_log *iniciar_logger(void)
 {
     t_log *nuevo_logger;
-
-    if ((nuevo_logger = log_create("../log/client.log", "TP0", 1, LOG_LEVEL_INFO)) == NULL)
+    if ((nuevo_logger = log_create("/home/fmaver/Dev/tp0/log/client.log", "TP0", 1, LOG_LEVEL_INFO)) == NULL)
     {
         printf("No se pudo crear el logger");
         exit(1);
@@ -77,7 +76,7 @@ t_config* iniciar_config(void)
 {
 	t_config* nuevo_config;
 	
-	nuevo_config = config_create("../config/cliente.config");
+	nuevo_config = config_create("/home/fmaver/Dev/tp0/config/cliente.config");
 
 	return nuevo_config;
 }
