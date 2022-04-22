@@ -1,5 +1,6 @@
 #include "utils.h"
 
+extern t_log *logger;
 
 void* serializar_paquete(t_paquete* paquete, int bytes)
 {
@@ -29,21 +30,19 @@ int crear_conexion(char *ip, char* puerto)
 	getaddrinfo(ip, puerto, &hints, &server_info);
 
 	// Ahora vamos a crear el socket.
-	int socket_cliente = 0;
-	socket_cliente = socket(server_info->ai_family, 
+	int socket_cliente = socket(server_info->ai_family, 
                     		server_info->ai_socktype,
                     		server_info->ai_protocol);
 
+	log_info(logger, "Socket creado. Conectando...");
+
 	// Ahora que tenemos el socket, vamos a conectarlo
-	int connected = connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen);
-	printf("%d\n",connected);
-	if ( connected == -1)
+	if (connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen)==ERR)
 	{
-		perror("Could not connect\n");
-		return 1;
+		log_error(logger, "No se puedo conectar al socket");
 	}
 
-
+	log_debug(logger, "CONNECTED");
 
 	freeaddrinfo(server_info);
 

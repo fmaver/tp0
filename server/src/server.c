@@ -12,6 +12,7 @@ int main(void) {
 		int cod_op = recibir_operacion(cliente_fd);
 		switch (cod_op) {
 		case MENSAJE:
+			log_info(logger, "Entró un mensaje. Recibiendo..");
 			recibir_mensaje(cliente_fd);
 			break;
 		case PAQUETE:
